@@ -11,6 +11,7 @@ Though far from a perfect assessment of academic preparedness, SAT scores have h
 # Import and check out data
 education <- read.csv("https://mac-stat.github.io/data/sat.csv")
 head(education)
+library(tidyverse)
 ```
 
 A codebook is provided by Danny Kaplan who also made these data accessible:
@@ -72,7 +73,8 @@ What are the relationship trends between SAT scores and spending? Is there anyth
 Construct *one* visualization of the relationship of `sat` with `salary` *and* `expend`. HINT: Start with just 2 variables and tweak that code to add the third variable. Try out a few things!
 
 ```{r}
-
+ggplot(education, aes(y = sat, x = salary, color = expend)) +
+  geom_point()
 ```
 
 
@@ -84,7 +86,7 @@ It can be tough to distinguish color scales and size scales for quantitative var
 Construct the plot below. Check out the code and think about what's happening here. What happens if you change "2" to "3"?
 
 ```{r}
-ggplot(education, aes(y = sat, x = salary, color = cut(expend, 2))) + 
+ggplot(education, aes(y = sat, x = salary, color = cut(expend, 3))) + 
   geom_point() + 
   geom_smooth(se = FALSE, method = "lm")
 ```
@@ -93,6 +95,7 @@ ggplot(education, aes(y = sat, x = salary, color = cut(expend, 2))) +
 
 Describe the trivariate relationship between `sat`, `salary`, and `expend`.
 
+As salary increases, SAT scores generally decrease for states with low and medium spending. For states with high spending, SAT scores slightly increase with salary, but there are not many data points in this group. This shows that the relationship between salary and SAT scores depends on spending.
 
 ## Simpson's Paradox
 
@@ -103,7 +106,8 @@ It's strange that SAT scores *seem* to decrease with spending. But we're leaving
 Build a univariate viz of `fracCat` to better understand how many states fall into each category.
 
 ```{r}
-
+ggplot(education, aes(x = fracCat)) +
+  geom_bar()
 ```
 
 ### ✏️ Relate SAT to Participation
@@ -111,7 +115,8 @@ Build a univariate viz of `fracCat` to better understand how many states fall in
 Build 2 bivariate visualizations that demonstrate the relationship between `sat` and `fracCat`. What story does your graphic tell and why does this make contextual sense?
 
 ```{r}
-
+ggplot(education, aes(x = fracCat, y = sat)) +
+  geom_boxplot()
 ```
 
 ### ✏️ Add Participation to Spending Plot
@@ -120,13 +125,16 @@ Make a trivariate visualization that demonstrates the relationship of `sat` with
 Does it still seem that SAT scores decrease as spending increases?
 
 ```{r}
-
+ggplot(education, aes(x = expend, y = sat, color = fracCat)) +
+  geom_point() +
+    geom_smooth(method = "lm")
 ```
 
 ### ✏️ Explain Simpson's Paradox
 
 Putting all of this together, explain this example of **Simpson’s Paradox**. That is, why did it appear that SAT scores decrease as spending increases even though the *opposite* is true?
 
+States with lower participation had a more selective group of students taking the test, so their averages were higher. Once we separate states by participation level, SAT scores actually tend to increase with spending within each group. This is Simpson’s Paradox because the overall trend is the opposite of the trends we see when we account for the important third variable, SAT participation.
 
 
 ## Heat Maps & Star Plots (Optional)
