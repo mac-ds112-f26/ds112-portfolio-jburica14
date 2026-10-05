@@ -15,7 +15,10 @@ This dataset must include either:
 -   location coordinates for your points of interest (for point maps); or
 -   variable outcomes for your regions of interest (for choropleth maps)
 
-\
+```{r}
+library(tidyverse)
+```
+
 
 **Piece 2: A background map**
 
@@ -69,14 +72,7 @@ fave_places <- read.csv("https://hash-mac.github.io/ds112site-f26/data/our_fave_
 head(fave_places)
 ```
 
-```{r}
-#| echo: false
 
-fave_places <- read.csv("../data/our_fave_places.csv")
-
-# Check it out
-head(fave_places)
-```
 
 
 You can use a "two-finger scroll" to zoom in and out.
@@ -203,7 +199,8 @@ It's pretty cool that the plots we already know can provide some spatial context
 But what *don't* you like about this plot?
 
 ```{r}
-
+ggplot(starbucks, aes(y = Latitude , x = Longitude))+
+  geom_point(alpha = 0.2 , size = 0.2)
 ```
 
 ### ✏️ Add Country Background
@@ -340,16 +337,16 @@ Adjust the code below to make the plot!
 Remove the `#` to run it.
 
 ```{r}
-# ggplot(___) + 
-#   geom___() + 
-#   geom___(
-#     data = ___,
-#     aes(x = ___, y = ___),
-#     alpha = 0.7,
-#     size = 0.2, 
-#     color = 'darkgreen'
-#   ) + 
-#   theme_map()
+ggplot(cma_boundaries) +
+  geom_sf() +
+  geom_point(
+    data = starbucks_midwest,
+    aes(x = Longitude, y = Latitude),
+    alpha = 0.7,
+    size = 0.2,
+    color = 'darkgreen'
+  ) +
+  theme_map()
 ```
 
 ### ✏️ Build Contour Maps
