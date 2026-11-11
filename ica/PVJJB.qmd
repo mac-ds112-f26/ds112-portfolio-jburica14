@@ -1,0 +1,82 @@
+---
+title: "PVJJB"
+format: html
+---
+
+```{r}
+library(readxl)
+library(ggplot2)
+
+
+```
+
+```{r}
+PVJ <- read_excel(file.choose())
+
+View(PVJ)
+head(PVJ)
+names(PVJ)
+```
+
+
+```{r}
+
+
+ggplot(PVJ, aes(x = Grade)) +
+  geom_bar(fill = "steelblue") +
+  labs(
+    title = "Distribution of Grades",
+    x = "Grade",
+    y = "Number of Grades"
+  ) +
+  theme_minimal()
+```
+```{r}
+ggplot(PVJ, aes(x = "", fill = Grade)) +
+  geom_bar(width = 1) +
+  coord_polar(theta = "y") +
+  facet_wrap(~ Subject) +
+  labs(
+    title = "Grade Distribution by Subject",
+    fill = "Grade"
+  ) +
+  theme_void()
+```
+
+
+
+```{r}
+ggplot(PVJ, aes(x = factor(`Course Level`), fill = Grade)) +
+  geom_bar(position = "dodge", color = "white") +
+  labs(
+    title = "Distribution of Grades by Course Level",
+    x = "Course Level",
+    y = "Number of Grades",
+    fill = "Grade"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    legend.position = "right"
+  )
+```
+
+```{r}
+ggplot(PVJ, aes(x = "", fill = Grade)) +
+  geom_bar(width = 1, color = "white") +
+  coord_polar(theta = "y") +
+  facet_grid(`Course Level` ~ Subject) +
+  labs(
+    title = "Grade Distribution by Subject and Course Level",
+    subtitle = "Comparison of grades across subjects and course levels",
+    fill = "Grade"
+  ) +
+  theme_void() +
+  theme(
+    plot.title = element_text(face = "bold", size = 15),
+    plot.subtitle = element_text(size = 11),
+    strip.text = element_text(face = "bold", size = 10),
+    legend.position = "bottom"
+  )
+```
+
